@@ -2,7 +2,7 @@
 
 Probe Request, Probe Responce and Access Point Beacon Packet Sniffer
 
-# Python Packet Sniffer Script
+# WiFi Packet Sniffer Script (Python)
 ![Packet Sniffer Script](/img/PiSniff.png)
 # Raspberry Pi Network Sniffer
 ![Network Sniffer](/img/PiSniffer.jpg)
