@@ -199,11 +199,11 @@ def main():
     args = parser.parse_args()
 
     if not args.monitor:
-        print "Monitor mode adapter not set"
+        print ("Monitor mode adapter not set")
         sys.exit(-1)
 
     if not args.file:
-        print "Output location not set"
+        print ("Output location not set")
         sys.exit(-1)
 
     logger = logging.getLogger()
