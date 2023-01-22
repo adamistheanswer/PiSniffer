@@ -13,8 +13,6 @@ import sys
 # Rotating Logger
 import logging
 from logging.handlers import RotatingFileHandler
-# Library for reload function
-from importlib import reload
 # Convert UTC to local time with daylights saving
 import pytz
 # Serial input from GPS
