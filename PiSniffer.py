@@ -18,14 +18,14 @@ from importlib import reload
 # Convert UTC to local time with daylights saving
 import pytz
 # Serial input from GPS
-import serial
+import serial as s
 # Handles GPS NMEA codes for lat/lon fields
 import pynmea2
 # Packet capture
 from scapy.all import *
 
 # Force USB GPS to be handled as serial device using teletype interface (BU-353 USB GPS)
-GPSMessages = serial.Serial("/dev/ttyACM0", 4800, timeout=5)
+GPSMessages = s.Serial("/dev/ttyACM0", 4800, timeout=5)
 
 #reload(sys)
 #sys.setdefaultencoding('utf8')
