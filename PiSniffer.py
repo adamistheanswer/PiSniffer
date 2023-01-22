@@ -37,7 +37,7 @@ OUIMEM = {}
 def new_func(OUIMEM, line):
     OUIMEM[line[0]] = line[1:]
 
-with open('OUI.txt', 'rb') as OUILookup:
+with open('OUI.txt', 'r') as OUILookup:
     for line in csv.reader(OUILookup, delimiter='\t'):
         if not line or line[0] == "#":
             continue
