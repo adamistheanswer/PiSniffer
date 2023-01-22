@@ -25,9 +25,6 @@ from scapy.all import *
 # Force USB GPS to be handled as serial device using teletype interface (BU-353 USB GPS)
 GPSMessages = s.Serial("/dev/ttyACM0", 4800, timeout=5)
 
-#reload(sys)
-#sys.setdefaultencoding('utf8')
-
 CSVDelim = ','
 FoundAccessPoints = []
 
