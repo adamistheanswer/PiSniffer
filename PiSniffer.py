@@ -34,19 +34,15 @@ CSVDelim = ','
 FoundAccessPoints = []
 
 OUIMEM = {}
-with open('OUI.txt', 'r') as OUILookup:
+def new_func(OUIMEM, line):
+    OUIMEM[line[0]] = line[1:]
+
+with open('OUI.txt', 'rb') as OUILookup:
     for line in csv.reader(OUILookup, delimiter='\t'):
         if not line or line[0] == "#":
             continue
         else:
-            OUIMEM[line[0]] = line[1:]
-
-#with open('OUI.txt', 'rb') as OUILookup:
-#    for line in csv.reader(OUILookup, delimiter='\t'):
-#        if not line or line[0] == "#":
-#            continue
-#        else:
-#            OUIMEM[line[0]] = line[1:]
+            new_func(OUIMEM, line)
 
 # Initialise GPS to North Pole
 gpsLat = ['NO GPS']
