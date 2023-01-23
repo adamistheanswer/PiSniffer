@@ -28,16 +28,16 @@ GPSMessages = s.Serial("/dev/ttyACM0", 4800, timeout=5)
 CSVDelim = ','
 FoundAccessPoints = []
 
-OUIMEM = {}
-def new_func(OUIMEM, line):
-    OUIMEM[line[0]] = line[1:]
+#OUIMEM = {}
+#def new_func(OUIMEM, line):
+#    OUIMEM[line[0]] = line[1:]
 
-with open('OUI.txt', 'r') as OUILookup:
-    for line in csv.reader(OUILookup, delimiter='\t'):
-        if not line or line[0] == "#":
-            continue
-        else:
-            new_func(OUIMEM, line)
+#with open('OUI.txt', 'r') as OUILookup:
+#    for line in csv.reader(OUILookup, delimiter='\t'):
+#        if not line or line[0] == "#":
+#            continue
+#        else:
+#            new_func(OUIMEM, line)
 
 # Initialise GPS to North Pole
 gpsLat = ['NO GPS']
@@ -103,12 +103,12 @@ def probe_log_build(logger):
         log_clock = clock[-8:]
         log_time = str(date + ' ' + log_clock)
 
-        MAC = str(packet.addr2).upper()
-        clientOUI = MAC[:8]
-        firstOctet = clientOUI[:2]
-        scale = 16
-        num_of_bits = 8
-        binaryRep = str(bin(int(firstOctet, scale))[2:].zfill(num_of_bits))
+        #MAC = str(packet.addr2).upper()
+        #clientOUI = MAC[:8]
+        #firstOctet = clientOUI[:2]
+        #scale = 16
+        #num_of_bits = 8
+        #binaryRep = str(bin(int(firstOctet, scale))[2:].zfill(num_of_bits))
 
         if int(clock[-1:]) / 5 == 0:
             parsedGPS = gpsfix()
@@ -120,18 +120,18 @@ def probe_log_build(logger):
             probe = ['PR-REQ', rssi(radio), channel(radio) + 'Mhz', log_time,
                      str(gpsLat[-1])[:7], str(gpsLon[-1])[:7], 'Client', str(packet.addr2)]
 
-            if OUIMEM.get(clientOUI) is not None:
-                identifiers = len(OUIMEM[clientOUI])
-                if identifiers == 2:
-                    probe.append(str(OUIMEM[clientOUI][1]).replace(',', '').title())
-                else:
-                    if identifiers == 1:
-                        probe.append(str(OUIMEM[clientOUI][0]).replace(',', '').title())
-            else:
-                if binaryRep[6:7] == '1':
-                    probe.append('Locally Assigned')
-                else:
-                    probe.append('Unknown OUI')
+            #if OUIMEM.get(clientOUI) is not None:
+            #    identifiers = len(OUIMEM[clientOUI])
+            #    if identifiers == 2:
+            #        probe.append(str(OUIMEM[clientOUI][1]).replace(',', '').title())
+            #    else:
+            #        if identifiers == 1:
+            #            probe.append(str(OUIMEM[clientOUI][0]).replace(',', '').title())
+           # else:
+            #    if binaryRep[6:7] == '1':
+            #        probe.append('Locally Assigned')
+            #    else:
+            #        probe.append('Unknown OUI')
 
             if '\x00' not in packet[Dot11ProbeReq].info:
                 if str(packet.info):
@@ -143,22 +143,22 @@ def probe_log_build(logger):
 
         if packet.haslayer(Dot11Beacon):
 
-            if str(packet[Dot11].addr3) not in FoundAccessPoints:
-                beacon = ['AP-BEC', rssi(radio), channel(radio) + 'Mhz', log_time,
-                           str(gpsLat[-1])[:7], str(gpsLon[-1])[:7], 'BSSID', str(packet[Dot11].addr3)]
+           # if str(packet[Dot11].addr3) not in FoundAccessPoints:
+           #     beacon = ['AP-BEC', rssi(radio), channel(radio) + 'Mhz', log_time,
+           #                str(gpsLat[-1])[:7], str(gpsLon[-1])[:7], 'BSSID', str(packet[Dot11].addr3)]
 
-                if OUIMEM.get(clientOUI) is not None:
-                    identifiers = len(OUIMEM[clientOUI])
-                    if identifiers == 2:
-                        beacon.append(str(OUIMEM[clientOUI][1]).replace(',', '').title())
-                    else:
-                        if identifiers == 1:
-                            beacon.append(str(OUIMEM[clientOUI][0]).replace(',', '').title())
-                else:
-                    if binaryRep[6:7] == '1':
-                        beacon.append('Locally Assigned')
-                    else:
-                        beacon.append('Unknown OUI')
+           #     if OUIMEM.get(clientOUI) is not None:
+           #         identifiers = len(OUIMEM[clientOUI])
+           #         if identifiers == 2:
+           #             beacon.append(str(OUIMEM[clientOUI][1]).replace(',', '').title())
+           #         else:
+           #             if identifiers == 1:
+           #                 beacon.append(str(OUIMEM[clientOUI][0]).replace(',', '').title())
+           #     else:
+           #         if binaryRep[6:7] == '1':
+           #             beacon.append('Locally Assigned')
+           #         else:
+            #            beacon.append('Unknown OUI')
 
                 beacon.append(str(packet[Dot11].info))
                 FoundAccessPoints.append(str(packet[Dot11].addr3))
@@ -168,18 +168,18 @@ def probe_log_build(logger):
             response = ['AP-RES', rssi(radio), channel(radio) + 'Mhz', log_time,
                         str(gpsLat[-1])[:7], str(gpsLon[-1])[:7], 'Client', str(packet[Dot11].addr1), 'BSSID', str(packet[Dot11].addr3)]
 
-            if OUIMEM.get(clientOUI) is not None:
-                identifiers = len(OUIMEM[clientOUI])
-                if identifiers == 2:
-                    response.append(str(OUIMEM[clientOUI][1]).replace(',', '').title())
-                else:
-                    if identifiers == 1:
-                        response.append(str(OUIMEM[clientOUI][0]).replace(',', '').title())
-            else:
-                if binaryRep[6:7] == '1':
-                    response.append('Locally Assigned')
-                else:
-                    response.append('Unknown OUI')
+         #   if OUIMEM.get(clientOUI) is not None:
+         #       identifiers = len(OUIMEM[clientOUI])
+         #       if identifiers == 2:
+         #           response.append(str(OUIMEM[clientOUI][1]).replace(',', '').title())
+         #       else:
+         #           if identifiers == 1:
+         #               response.append(str(OUIMEM[clientOUI][0]).replace(',', '').title())
+         #   else:
+         #       if binaryRep[6:7] == '1':
+         #           response.append('Locally Assigned')
+         #       else:
+         #           response.append('Unknown OUI')
 
             response.append(str(packet[Dot11].info))
             logger.info(CSVDelim.join(response))
